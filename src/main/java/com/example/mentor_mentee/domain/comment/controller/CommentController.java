@@ -1,4 +1,4 @@
-package com.example.mentor_mentee.domain.comment;
+package com.example.mentor_mentee.domain.comment.controller;
 
 import org.springframework.web.bind.annotation.*;
 
