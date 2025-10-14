@@ -2,6 +2,11 @@ package com.example.mentor_mentee.domain.comment.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+/*
+즉, @RequestMapping은 “특정 URL 경로(Path)”로 들어온
+요청을 어떤 컨트롤러(혹은 메서드)가 처리할지 연결하는 어노테이션입니다!
+ */
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
