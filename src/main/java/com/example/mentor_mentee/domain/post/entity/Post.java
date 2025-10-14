@@ -16,6 +16,7 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동 증가 전략 명시
+    @Column(name = "id")
     private Long id;
 
     @Column(nullable = false)
