@@ -3,6 +3,7 @@ package com.example.mentor_mentee.domain.comment.controller;
 import com.example.mentor_mentee.domain.comment.dto.request.CommentRequestDto;
 import com.example.mentor_mentee.domain.comment.dto.response.CommentResponseDto;
 import com.example.mentor_mentee.domain.comment.service.CommentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +13,11 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/comments")
 public class CommentController {
 
     private final CommentService commentService;
-
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
 
     // 댓글 생성
     @PostMapping
@@ -31,23 +29,23 @@ public class CommentController {
     // 댓글 전체 조회
     @GetMapping
     public String getAllComments(@RequestParam Long postId) {
-        return postId + "번의 게시글 댓글 전체 조회";
+        return postId + "댓글 리스트 조회 완료";
     }
 
     // 댓글 부분 조회
-    @GetMapping("/{commentId}")
+    @GetMapping("/{comment-Id}")
     public String getCommentById(@RequestParam Long postId, @PathVariable Long commentId) {
         return postId + "번의 게시글 중" + commentId + "번 댓글 조회";
     }
 
     // 댓글 수정
-    @PutMapping("/{commentId}")
+    @PutMapping("/{comment-Id}")
     public String updateComment(@RequestParam Long postId, @PathVariable Long commentId, @RequestParam String content) {
         return postId + "번의 게시글 중" + commentId + "번 댓글 수정" + content + "로";
     }
 
     // 댓글 삭제
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/{comment-Id}")
     public String deleteComment(@RequestParam Long postId, @PathVariable Long commentId) {
         return postId + "번 게시글 중 " + commentId + "번 댓글 삭제";
     }
