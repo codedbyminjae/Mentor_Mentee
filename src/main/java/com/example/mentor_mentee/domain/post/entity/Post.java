@@ -28,4 +28,9 @@ public class Post {
     @Column(nullable = false)
     @Builder.Default
     private Long views = 0L;   // 기본값 지정해서 빌드 오류 제거 위 과정이 필수
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

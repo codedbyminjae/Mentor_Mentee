@@ -1,6 +1,7 @@
 package com.example.mentor_mentee.domain.post.controller;
 
 import com.example.mentor_mentee.domain.post.dto.request.CreatePostRequestDto;
+import com.example.mentor_mentee.domain.post.dto.request.UpdatePostRequestDto;
 import com.example.mentor_mentee.domain.post.dto.response.PostResponseDto;
 import com.example.mentor_mentee.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -39,14 +40,16 @@ public class PostController {
 
     // 게시글 수정
     @PutMapping("/{post-id}")
-    public String updatePost(@PathVariable("post-id") Long id) {
-        return id + "번 게시글 수정 완료";
+    public PostResponseDto updatePost(@RequestBody UpdatePostRequestDto updatePostRequestDto, @PathVariable(value = "post-id") Long id) {
+        PostResponseDto responseDto = postService.updatePost(updatePostRequestDto, id);
+        return responseDto;
     }
 
     // 게시글 삭제
     @DeleteMapping("/{post-id}")
-    public String deletePost(@PathVariable("post-id") Long id) {
-        return id + "번 게시글 삭제 완료";
+    public String deletePost(@PathVariable(value = "post-id") Long id) {
+        String response = postService.deletePost(id);
+        return response;
     }
 }
 
