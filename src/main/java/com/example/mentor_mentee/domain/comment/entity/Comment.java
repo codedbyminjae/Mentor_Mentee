@@ -24,8 +24,10 @@ public class Comment {
     private String content;
 
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    // 추가 된 부분
+    // N:1 관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false) // FK 생성
     private Post post;
 
     /*
