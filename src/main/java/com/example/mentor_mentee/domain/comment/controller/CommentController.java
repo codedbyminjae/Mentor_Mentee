@@ -19,34 +19,16 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    // 댓글 생성
-    @PostMapping
-    public CommentResponseDto createComment(@RequestBody CommentRequestDto postRequestDto) {
-        CommentResponseDto responseDto = commentService.createComment(postRequestDto);
+    // 댓글 생성 - 수정ver
+    @PostMapping("/{post-id}")
+    public CommentResponseDto createComment(@PathVariable(value = "post-id") Long postId, @RequestBody CommentRequestDto commentRequestDto) {
+        CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto);
         return responseDto;
     }
 
-    // 댓글 전체 조회
-    @GetMapping
-    public String getAllComments(@RequestParam Long postId) {
-        return postId + "댓글 리스트 조회 완료";
-    }
-
-    // 댓글 부분 조회
-    @GetMapping("/{comment-Id}")
-    public String getCommentById(@RequestParam Long postId, @PathVariable Long commentId) {
-        return postId + "번의 게시글 중" + commentId + "번 댓글 조회";
-    }
-
-    // 댓글 수정
-    @PutMapping("/{comment-Id}")
-    public String updateComment(@RequestParam Long postId, @PathVariable Long commentId, @RequestParam String content) {
-        return postId + "번의 게시글 중" + commentId + "번 댓글 수정" + content + "로";
-    }
-
-    // 댓글 삭제
-    @DeleteMapping("/{comment-Id}")
-    public String deleteComment(@RequestParam Long postId, @PathVariable Long commentId) {
-        return postId + "번 게시글 중 " + commentId + "번 댓글 삭제";
+    // 댓글 삭제 - 수정ver
+    @DeleteMapping("/{post-id}/{comment-id}")
+    public String deleteComment(@PathVariable(value = "post-id") Long postId, @PathVariable(value = "comment-id") Long commentId){
+        return commentService.deleteComment(postId, commentId);
     }
 }

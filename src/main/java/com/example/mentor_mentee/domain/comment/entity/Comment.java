@@ -20,9 +20,8 @@ public class Comment {
     @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "content", nullable = false, length = 300)
     private String content;
-
 
     // 추가 된 부분
     // N:1 관계

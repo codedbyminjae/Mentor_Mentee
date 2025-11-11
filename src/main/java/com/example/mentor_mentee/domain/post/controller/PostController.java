@@ -2,10 +2,13 @@ package com.example.mentor_mentee.domain.post.controller;
 
 import com.example.mentor_mentee.domain.post.dto.request.CreatePostRequestDto;
 import com.example.mentor_mentee.domain.post.dto.request.UpdatePostRequestDto;
+import com.example.mentor_mentee.domain.post.dto.response.PostListResponseDto;
 import com.example.mentor_mentee.domain.post.dto.response.PostResponseDto;
 import com.example.mentor_mentee.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor // 컨트롤러 서비스 레포지토리 연결
 @RestController
@@ -27,8 +30,9 @@ public class PostController {
 
     // 게시글 전체 조회
     @GetMapping
-    public String getAllPosts() {
-        return "게시글 리스트 조회 완료";
+    public List<PostListResponseDto> getAllPosts() {
+        List<PostListResponseDto> responseDtos = postService.readPostList();
+        return responseDtos;
     }
 
     // 게시글 단건 조회
@@ -51,5 +55,6 @@ public class PostController {
         String response = postService.deletePost(id);
         return response;
     }
+
 }
 

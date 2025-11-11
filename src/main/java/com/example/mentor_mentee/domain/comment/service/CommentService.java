@@ -16,26 +16,43 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
 
-    public CommentResponseDto createComment(CommentRequestDto commentRequestDto) {
-        // 댓글이 달릴 게시글(postId)이 존재하는지 확인하고 가져옴
-        // postRepo에 있는 데이터를 가져와야 하기에 postRepo도 함께 사용
-        Post post = postRepository.findById(commentRequestDto.getPostId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+    public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto) {
+        // 1. postId가 식별자인 Post를 조회
+        Post post = postRepository.findById(postId).orElse(null);
 
-        // CommentRequestDto에 있는 값으로 Comment 객체 생성
-        // 빌더로 연결된 것
+        // 2. comment 생성
         Comment comment = Comment.builder()
                 .content(commentRequestDto.getContent())
                 .post(post)
                 .build();
 
-        // 새로 생성한 comment 객체 DB에 저장
-        Comment savedComment = commentRepository.save(comment);
+        // 3. comment 저장 및 반환
+        Comment savedComment =  commentRepository.save(comment);
 
-        // 저장된 comment 객체에서 필요한 값을 꺼내 CommentResponseDto 생성
         return CommentResponseDto.builder()
-                .id(savedComment.getId())
+                .commentId(savedComment.getId())
                 .content(savedComment.getContent())
                 .build();
+    }
+
+    public String deleteComment(Long postId, Long commentId) {
+        // 1. postId가 식별자인 Post가 존재하는지 확인
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null) {
+            return postId + "번 게시글은 존재하지 않습니다.";
+        }
+        // 2. 조건에 따라 comment 삭제 여부 설정
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment == null) {
+            return + commentId + "번 댓글은 존재하지 않습니다.";
+        }
+        if (post.getComments().contains(comment)) {
+            commentRepository.delete(comment);
+            return commentId + "번 댓글이 삭제 되었습니다.";
+        } else {
+            return commentId + "번 댓글은" + postId + "번 게시글의 댓글이 아닙니다.";
+        }
+
+
     }
 }

@@ -27,11 +27,6 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private Long views = 0L;   // 기본값 지정해서 빌드 오류 제거 위 과정이 필수
-
-
     @OneToMany(mappedBy = "post")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
