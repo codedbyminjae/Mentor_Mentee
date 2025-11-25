@@ -5,7 +5,10 @@ import com.example.mentor_mentee.domain.post.dto.request.UpdatePostRequestDto;
 import com.example.mentor_mentee.domain.post.dto.response.PostListResponseDto;
 import com.example.mentor_mentee.domain.post.dto.response.PostResponseDto;
 import com.example.mentor_mentee.domain.post.service.PostService;
+import com.example.mentor_mentee.global.base.BaseResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,37 +26,41 @@ public class PostController {
 
     // 게시글 생성
     @PostMapping("/")
-    public PostResponseDto createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
+    public ResponseEntity<BaseResponse<PostResponseDto>> createPost(@RequestBody CreatePostRequestDto createPostRequestDto) {
         PostResponseDto responseDto = postService.createPost(createPostRequestDto);
-        return responseDto;
+        return ResponseEntity
+                .status(201)
+                .body(BaseResponse.success(201, "게시글이 성공적으로 생성되었습니다.", responseDto));
     }
 
     // 게시글 전체 조회
     @GetMapping
-    public List<PostListResponseDto> getAllPosts() {
+    public ResponseEntity<BaseResponse<List<PostListResponseDto>>> getAllPosts() {
         List<PostListResponseDto> responseDtos = postService.readPostList();
-        return responseDtos;
+        return ResponseEntity
+                .status(200)
+                .body(BaseResponse.success(responseDtos));
     }
 
     // 게시글 단건 조회
     @GetMapping("/{post-id}")
-    public PostResponseDto getPostById(@PathVariable(value = "post-id") Long id) {
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable(value = "post-id") Long id) {
         PostResponseDto responseDto = postService.readPost(id);
-        return responseDto;
+        return ResponseEntity.status(200).body(responseDto);
     }
 
     // 게시글 수정
     @PutMapping("/{post-id}")
-    public PostResponseDto updatePost(@RequestBody UpdatePostRequestDto updatePostRequestDto, @PathVariable(value = "post-id") Long id) {
+    public ResponseEntity<PostResponseDto> updatePost(@RequestBody UpdatePostRequestDto updatePostRequestDto, @PathVariable(value = "post-id") Long id) {
         PostResponseDto responseDto = postService.updatePost(updatePostRequestDto, id);
-        return responseDto;
+        return ResponseEntity.status(200).body(responseDto);
     }
 
     // 게시글 삭제
     @DeleteMapping("/{post-id}")
-    public String deletePost(@PathVariable(value = "post-id") Long id) {
+    public ResponseEntity<String> deletePost(@PathVariable(value = "post-id") Long id) {
         String response = postService.deletePost(id);
-        return response;
+        return ResponseEntity.status(204).body(response);
     }
 
 }
