@@ -1,6 +1,7 @@
 package com.example.mentor_mentee.domain.post.entity;
 
 import com.example.mentor_mentee.domain.comment.entity.Comment;
+import com.example.mentor_mentee.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Post {
     @OneToMany(mappedBy = "post")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
 
     public void update(String title, String content) {
         this.title = title;

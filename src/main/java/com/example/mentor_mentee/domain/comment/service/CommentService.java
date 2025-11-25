@@ -19,7 +19,6 @@ public class CommentService {
     public CommentResponseDto createComment(Long postId, CommentRequestDto commentRequestDto) {
         // 1. postId가 식별자인 Post를 조회
         Post post = postRepository.findById(postId).orElse(null);
-
         // 2. comment 생성
         Comment comment = Comment.builder()
                 .content(commentRequestDto.getContent())
